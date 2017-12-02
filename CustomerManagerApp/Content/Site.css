@@ -1,0 +1,89 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.navbar-brand {
+    padding: 0px;
+}
+
+    .navbar-brand > img {
+        height: 100%;
+        padding: 0px;
+        width: auto;
+    }
+
+.logo_image {
+    margin-right: 10px;
+    padding: 0;
+}
+
+.logo_name {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: white !important;
+}
+
+.main_content {
+    padding-top: 5%;
+}
+
+.tab_main_data {
+    padding-top: 3%;
+}
+
+@media only screen and (max-width: 500px) {
+    .tab_main_data {
+        padding-top: 6%;
+    }
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+}
+
+.reg_input_addon {
+    color: darkgreen;
+    background: aliceblue;
+}
+
+.validation {
+    color: brown;
+    margin-top: 2%;
+}
+
+.loginbtn, .regbtn {
+    width: 100%;
+}
+
+.carousel-inner > .item > img {
+    width: 100%;
+    height: 80vh;
+}
+
+#response-message {
+    display:none;
+    width: auto;
+    background: cadetblue;
+    font-size: 15px;
+    font-family: verdana;
+    border-radius: 2px;
+    color: white;
+    position: absolute;
+    top: 10%;
+    right: 3%;
+    padding: 5px
+}

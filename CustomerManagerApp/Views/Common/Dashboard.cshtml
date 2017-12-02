@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+<div id="response-message"></div>
+<div class="row">
+    <div class="col-md-8" ng-controller="ProductController">
+        <form class="" ng-submit="AddProduct()">
+            <label>Add Product</label>
+            <input type="text" class="form-control" ng-model="productName" /><br />
+            <button type="submit" class="btn btn-success">Add Product</button>
+        </form>
+    </div>
+</div>
