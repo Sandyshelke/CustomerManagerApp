@@ -50,9 +50,46 @@
                         <div class="form-group ">
                             <button type="submit" class="btn btn-primary loginbtn" ng-disabled="!LoginForm.password.$valid"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
                         </div>
-                    </form>
-                </div>
-                <div id="Register" class="tab-pane fade" ng-controller="RegisterController">
+                        <div class="form-group ">
+                            <a data-toggle="modal" href="#forgotModal" id="forgot_password" ng-click="showForm=true;ResponseContent=''">
+                                Forgot Password? Reset now
+                            </a>
+                        </div>
+                </form>
+
+                    <!--Forgot Model  -->
+                    <div class="modal fade" id="forgotModal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Forgot Password</h4>
+                                </div>
+                                <div class="modal-body" style="padding: 40px 50px;">
+                                    <form id="forgot_form" ng-submit="GetFogotPassResponse()"
+                                          ng-show="showForm">
+                                        <div class="form-group">
+                                            <label for="email">
+                                                <span class="glyphicon glyphicon-user"></span> Username
+                                            </label> <input class="form-control" type="email" name=forgot_email
+                                                            id="forgot_email" placeholder="Enter Email" required="true"
+                                                            autofocus="true" ng-model="username" maxlength='39' />
+                                            <div id="wait"></div>
+                                        </div>
+                                        <input type="submit" class="btn btn-success" value="Reset Now"
+                                               id="submit" name="btn" ng-disabled="showResetBtn">
+                                        &emsp;
+
+                                    </form>
+                                    <div class="respcontent" ng-show="showResp">{{ResponseContent}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+
+                    <div id="Register" class="tab-pane fade" ng-controller="RegisterController">
                     <div class="main-login main-center">
                         <form class="form-horizontal" name="RegisterForm" ng-submit="RegisterAcc()">
                             <div class="form-group">

@@ -38,7 +38,11 @@ namespace CustomerManagerApp.Providers
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
             }
-
+            else if (user.EmailConfirmed == false)
+            {
+                context.SetError("invalid_grant", "Email is not confirmed.");
+                return;
+            }
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
                OAuthDefaults.AuthenticationType);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,

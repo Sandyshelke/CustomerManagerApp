@@ -54,6 +54,28 @@ custApp.controller("LoginController", function ($scope, $http, $GetRequestedData
                 $responseMessage.setMessage(response.data.error_description);
             })
     }
+
+    $scope.showResp = false;
+    $scope.showForm = true;
+    $scope.GetFogotPassResponse = function () {
+        $scope.showResp = true;
+        $scope.ResponseContent = "Loading Data...";
+        $scope.showResetBtn = true;
+        $http({
+            method: "POST",
+            url: "/api/Account/ForgotPassword",
+            data: { "Email": $scope.username }
+        }).then(function success(response) {
+            $scope.ResponseContent = response.data.message;
+            $scope.showResetBtn = false;
+            $scope.username = "";
+            $scope.showForm = false;
+        }, function error(response) {
+            $scope.username = "";
+            $scope.showResetBtn = false;
+            $scope.ResponseContent = response.data.errorMessage;
+        });
+    }
 })
 
 custApp.controller("RegisterController", function ($scope, $http, $GetRequestedData, $responseMessage) {
@@ -79,7 +101,7 @@ custApp.controller("RegisterController", function ($scope, $http, $GetRequestedD
 
     $scope.RegisterAcc = function () {
         var requestObject = {
-            Name: $scope.name,
+            UserName: $scope.name,
             Email: $scope.emailId,
             Password: $scope.password,
             ConfirmPassword: $scope.confirmPassword
@@ -121,3 +143,66 @@ custApp.controller("ProductController", function ($scope, $http, $GetRequestedDa
 }).controller("MatchController", function ($scope, $http, $GetRequestedData) {
     
 })*/
+
+
+//Resetpassword
+
+
+var resetPasswordApp = angular.module('resetPasswordApp', []);
+
+resetPasswordApp.controller('resetPasswordController', ['$scope', '$window', '$location', 'resetPasswordService', function ($scope, $window, $location, resetPasswordService) {
+
+
+    $scope.ResetPassword = {
+        Email: "",
+        Password: "",
+        ConfirmPassword: "",
+        code: ""
+    }
+
+    var parseLocation = function (location) {
+        var pairs = location.substring(1).split("&");
+        var obj = {};
+        var pair;
+        var i;
+
+        for (i in pairs) {
+            if (pairs[i] === "") continue;
+
+            pair = pairs[i].split("=");
+            obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        }
+
+        return obj;
+    };
+
+    $scope.ResetPassword.code = parseLocation(window.location.search)['code'];
+    //console.log(x);
+
+    $scope.ChangePassword = function () {
+
+        resetPasswordService.resetPassword($scope.ResetPassword).then(function (response) {
+            alert("Password Changed Successfully");
+            $window.location.href = "/Common/Dashboard";
+
+        }, function () {
+            alert("Failed.Please try again.");
+        })
+    }
+
+}])
+
+resetPasswordApp.factory('resetPasswordService', ['$http', function ($http) {
+
+    var fac = {};
+
+    fac.resetPassword = function (resetPasswordData) {
+        return $http.post('/api/Account/ResetPassword', resetPasswordData)
+    };
+
+    return fac;
+
+}])
+
+
+    

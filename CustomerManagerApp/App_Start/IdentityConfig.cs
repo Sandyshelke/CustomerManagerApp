@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using CustomerManagerApp.Models;
+using CustomerManagerApp.Areas.Mailer.Service;
 
 namespace CustomerManagerApp
 {
@@ -34,6 +35,11 @@ namespace CustomerManagerApp
                 RequireLowercase = true,
                 RequireUppercase = true,
             };
+
+            // Code for send mail.
+            manager.EmailService = new EMailService();
+
+
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {

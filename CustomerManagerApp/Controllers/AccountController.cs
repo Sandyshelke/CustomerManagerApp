@@ -337,6 +337,25 @@ namespace CustomerManagerApp.Controllers
                 return GetErrorResult(result);
             }
 
+            #region Added Code for Send Email
+
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            code = HttpUtility.UrlEncode(code);
+            try
+            {
+
+                string callbackUrl = Url.Link("DefaultApi", new { controller = "Account/ConfirmEmail", userId = user.Id, code = code });
+
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+
+            #endregion
             return Ok();
         }
 
@@ -370,8 +389,98 @@ namespace CustomerManagerApp.Controllers
             {
                 return GetErrorResult(result); 
             }
+
+            
             return Ok();
         }
+
+
+        #region Confirm Email 
+
+        
+        // GET: /Account/ConfirmEmail
+        [Route("ConfirmEmail")]
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return NotFound();
+            }
+
+            code = HttpUtility.UrlDecode(code);
+
+            var result = await UserManager.ConfirmEmailAsync(userId, code);
+            return Ok(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+
+        #endregion
+
+        #region Forgot Password
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [Route("ForgotPassword")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return BadRequest("Either user does not exist or you have not confirmed your email.");
+                }
+
+                try
+                {
+                    // Send an email with this link
+                    string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                    string callbackUrl = Url.Link("Default", new { controller = "User/UserMvc/RecoverPassword/ResetPassword", userId = user.Id, code = code,email=user.Email });
+                    await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    return Ok("message:Reset link send to your account");
+                }
+                catch (Exception ex)
+                {
+                    return InternalServerError();
+                }
+
+            }
+
+            return BadRequest();
+        }
+
+        #endregion
+
+        #region Reset Password
+
+        // POST: /Account/ResetPassword
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("ResetPassword")]
+        public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return RedirectToRoute("Default", new { controller = "User" });
+            }
+            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return InternalServerError();
+        }
+
+        #endregion
+
 
         protected override void Dispose(bool disposing)
         {
