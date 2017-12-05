@@ -241,10 +241,8 @@
     <Compile Include="Areas\Products\Controllers\ProductController.cs" />
     <Compile Include="Areas\Products\Models\Product.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
-    <Compile Include="Areas\User\Controllers\UserMvcController.cs" />
-    <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\AccountMvcController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -313,10 +311,7 @@
     <Content Include="Content\fonts\FontAwesome.otf" />
     <Content Include="Areas\Products\Views\web.config" />
     <Content Include="Areas\Mailer\Views\web.config" />
-    <Content Include="Areas\User\Views\web.config" />
-    <Content Include="Areas\User\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\User\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\User\Views\UserMvc\ResetPassword.cshtml" />
+    <Content Include="Views\AccountMvc\ResetPassword.cshtml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -344,8 +339,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Common\Account.cshtml" />
-    <Content Include="Views\Common\Dashboard.cshtml" />
+    <Content Include="Views\AccountMvc\Account.cshtml" />
+    <Content Include="Views\AccountMvc\Dashboard.cshtml" />
+    <Content Include="Views\AccountMvc\ConfirmEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -353,7 +349,6 @@
     <Folder Include="Areas\Mailer\Models\" />
     <Folder Include="Areas\Mailer\Views\Shared\" />
     <Folder Include="Areas\Products\Views\Shared\" />
-    <Folder Include="Areas\User\Models\" />
     <Folder Include="Images\icon\" />
   </ItemGroup>
   <ItemGroup>

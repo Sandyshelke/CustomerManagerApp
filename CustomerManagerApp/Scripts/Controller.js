@@ -55,6 +55,8 @@ custApp.controller("LoginController", function ($scope, $http, $GetRequestedData
             })
     }
 
+
+    // Frogot Password :Reset link send on email
     $scope.showResp = false;
     $scope.showForm = true;
     $scope.GetFogotPassResponse = function () {
@@ -148,9 +150,9 @@ custApp.controller("ProductController", function ($scope, $http, $GetRequestedDa
 //Resetpassword
 
 
-var resetPasswordApp = angular.module('resetPasswordApp', []);
+//var resetPasswordApp = angular.module('resetPasswordApp', []);
 
-resetPasswordApp.controller('resetPasswordController', ['$scope', '$window', '$location', 'resetPasswordService', function ($scope, $window, $location, resetPasswordService) {
+custApp.controller('resetPasswordController', ['$scope', '$window', '$location', 'resetPasswordService', function ($scope, $window, $location, resetPasswordService) {
 
 
     $scope.ResetPassword = {
@@ -183,7 +185,7 @@ resetPasswordApp.controller('resetPasswordController', ['$scope', '$window', '$l
 
         resetPasswordService.resetPassword($scope.ResetPassword).then(function (response) {
             alert("Password Changed Successfully");
-            $window.location.href = "/Common/Dashboard";
+            $window.location.href = "/Common/options";
 
         }, function () {
             alert("Failed.Please try again.");
@@ -192,7 +194,7 @@ resetPasswordApp.controller('resetPasswordController', ['$scope', '$window', '$l
 
 }])
 
-resetPasswordApp.factory('resetPasswordService', ['$http', function ($http) {
+custApp.factory('resetPasswordService', ['$http', function ($http) {
 
     var fac = {};
 

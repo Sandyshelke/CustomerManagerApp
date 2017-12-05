@@ -13,6 +13,9 @@ namespace CustomerManagerApp
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //enabling attribute routing
+            routes.MapMvcAttributeRoutes();
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -356,6 +356,7 @@ namespace CustomerManagerApp.Controllers
             }
 
             #endregion
+
             return Ok();
         }
 
@@ -408,11 +409,11 @@ namespace CustomerManagerApp.Controllers
             {
                 return NotFound();
             }
-
             code = HttpUtility.UrlDecode(code);
 
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return Ok(result.Succeeded ? "ConfirmEmail" : "Error");
+
+            return Ok(result.Succeeded? "ConfirmEmail" : "Error");
         }
 
         #endregion
@@ -437,7 +438,7 @@ namespace CustomerManagerApp.Controllers
                 {
                     // Send an email with this link
                     string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                    string callbackUrl = Url.Link("Default", new { controller = "User/UserMvc/RecoverPassword/ResetPassword", userId = user.Id, code = code,email=user.Email });
+                    string callbackUrl = Url.Link("Default", new { controller = "Common/RecoverPassword/ResetPassword", userId = user.Id, code = code,email=user.Email });
                     await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     return Ok("message:Reset link send to your account");
                 }
@@ -469,7 +470,8 @@ namespace CustomerManagerApp.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToRoute("Default", new { controller = "User" });
+                // return RedirectToRoute("Default", new { controller = "User" });
+                return InternalServerError();
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
