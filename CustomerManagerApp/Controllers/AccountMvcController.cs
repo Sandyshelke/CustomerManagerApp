@@ -23,10 +23,28 @@ namespace CustomerManagerApp.Controllers
         }
 
         [Authorize]
+        [Route("Dashboard")]
         public ActionResult Dashboard()
         {
             return View();
         }
+
+        #region Show Account Activation Form
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("ActivationStatus/{id}")]
+        public ActionResult ShowActivationStatus(string id)
+        {
+            if (id=="success")
+                ViewBag.result = "Your Account is active Please wait...";
+            else
+                ViewBag.result = "Your Account is not active Please try again";
+            return View();
+        }
+
+        #endregion
+
 
         #region Show Recover Password form
 

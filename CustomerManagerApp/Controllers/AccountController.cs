@@ -396,9 +396,9 @@ namespace CustomerManagerApp.Controllers
         }
 
 
-        #region Confirm Email 
+        #region Confirm Email (Activate Account from Email)
 
-        
+
         // GET: /Account/ConfirmEmail
         [Route("ConfirmEmail")]
         [AllowAnonymous]
@@ -413,7 +413,14 @@ namespace CustomerManagerApp.Controllers
 
             var result = await UserManager.ConfirmEmailAsync(userId, code);
 
-            return Ok(result.Succeeded? "ConfirmEmail" : "Error");
+            // return Ok(result.Succeeded? "ConfirmEmail" : "Error");
+            string url = null;
+            if (result.Succeeded)
+                url = "http://localhost:49419/Common/ActivationStatus/success";
+            else
+                url = "http://localhost:49419/Common/ActivationStatus/error";
+                System.Uri uri = new System.Uri(url);
+                return Redirect(uri);
         }
 
         #endregion

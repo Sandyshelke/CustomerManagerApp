@@ -341,7 +341,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\AccountMvc\Account.cshtml" />
     <Content Include="Views\AccountMvc\Dashboard.cshtml" />
-    <Content Include="Views\AccountMvc\ConfirmEmail.cshtml" />
+    <Content Include="Views\AccountMvc\ShowActivationStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
