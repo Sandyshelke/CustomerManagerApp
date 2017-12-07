@@ -21,20 +21,33 @@ custApp.factory("$GetRequestedData", function ($http, $q) {
         }
     }
 });
-custApp.factory("$responseMessage", function ($timeout) {
+custApp.factory("$responseMessage", function ($timeout, $rootScope) {
     return {
-        setMessage: function (message) {
-            document.getElementById("response-message").style.display = "block";
-            document.getElementById("response-message").innerHTML = message;
+        setMessage: function (inputMessage) {
+            document.getElementById("response-msg").style.display = "block";
+            $rootScope.message = inputMessage;
             $timeout(function () {
-                document.getElementById("response-message").style.display = "none";
+                document.getElementById("response-msg").style.display = "none";
             }, 3000);
         }
     }
 })
+custApp.factory('resetPasswordService', ['$http', function ($http) {
 
-custApp.controller("LoginController", function ($scope, $http, $GetRequestedData, $responseMessage) {
+    var fac = {};
+
+    fac.resetPassword = function (resetPasswordData) {
+        return $http.post('/api/Account/ResetPassword', resetPasswordData)
+    };
+
+    return fac;
+
+}])
+
+custApp.controller("LoginController", function ($scope, $http, $rootScope, $GetRequestedData, $responseMessage) {
+    $scope.isLoaded = false;
     $scope.LoginToApp = function () {
+        $responseMessage.setMessage("Loading Response...");
         var requestObject = {
             Email: $scope.emailId,
             Password: $scope.password
@@ -54,28 +67,13 @@ custApp.controller("LoginController", function ($scope, $http, $GetRequestedData
                 $responseMessage.setMessage(response.data.error_description);
             })
     }
-
-
-    // Frogot Password :Reset link send on email
-    $scope.showResp = false;
-    $scope.showForm = true;
-    $scope.GetFogotPassResponse = function () {
-        $scope.showResp = true;
-        $scope.ResponseContent = "Loading Data...";
-        $scope.showResetBtn = true;
-        $http({
-            method: "POST",
-            url: "/api/Account/ForgotPassword",
-            data: { "Email": $scope.username }
-        }).then(function success(response) {
-            $scope.ResponseContent = response.data.message;
-            $scope.showResetBtn = false;
-            $scope.username = "";
-            $scope.showForm = false;
+    $scope.SendResetPassLink = function () {
+        $scope.isLoaded = true;
+        $responseMessage.setMessage("Loading Response...");
+        $GetRequestedData.processRequest("POST", "/api/Account/ForgotPassword", { Email: $scope.username }).then(function success(response) {
+            $responseMessage.setMessage(response.data.Message);
         }, function error(response) {
-            $scope.username = "";
-            $scope.showResetBtn = false;
-            $scope.ResponseContent = response.data.errorMessage;
+            $responseMessage.setMessage(response.data.Message);
         });
     }
 })
@@ -102,8 +100,10 @@ custApp.controller("RegisterController", function ($scope, $http, $GetRequestedD
     };
 
     $scope.RegisterAcc = function () {
+        $responseMessage.setMessage("Loading Response...");
         var requestObject = {
-            UserName: $scope.name,
+            Name: $scope.name,
+            UserName: $scope.emailId,
             Email: $scope.emailId,
             Password: $scope.password,
             ConfirmPassword: $scope.confirmPassword
@@ -115,6 +115,34 @@ custApp.controller("RegisterController", function ($scope, $http, $GetRequestedD
         });
     }
 })
+
+custApp.controller('resetPasswordController', ['$scope', '$window', '$location', 'resetPasswordService', function ($scope, $window, $location, resetPasswordService) {
+
+    var queryparams = $location.absUrl().split('?')[1].split('&');
+    var urlParameter = {};
+    for (var index in queryparams) {
+        var split = queryparams[index].split('=');
+        urlParameter[decodeURIComponent(split[0])] = decodeURIComponent(split[1]);
+    }
+    $scope.ResetPassword = {
+        Email: urlParameter['email'] ,
+        Password: "",
+        ConfirmPassword: "",
+        code: urlParameter['code']
+    }
+
+    $scope.ChangeForgotPass = function () {
+
+        resetPasswordService.resetPassword($scope.ResetPassword).then(function (response) {
+            alert("Password Changed Successfully");
+            $window.location.href = "/Common/options";
+
+        }, function (response) {
+            alert(response.data.ModelState["model.Password"]);
+        })
+    }
+}])
+
 
 custApp.controller("ProductController", function ($scope, $http, $GetRequestedData, $responseMessage) {
 
@@ -131,80 +159,6 @@ custApp.controller("ProductController", function ($scope, $http, $GetRequestedDa
     }
 })
 
-/*custApp.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
-    $stateProvider.state('current', {
-        url: '/Matches/Current',
-        views: {
-            '': {
-                templateUrl: "Html/Matches/CurrentMatches.html",
-                controller: "MatchController"
-            }
-        }
-    })
-    $locationProvider.html5Mode(true);
-}).controller("MatchController", function ($scope, $http, $GetRequestedData) {
-    
-})*/
-
-
-//Resetpassword
-
-
-//var resetPasswordApp = angular.module('resetPasswordApp', []);
-
-custApp.controller('resetPasswordController', ['$scope', '$window', '$location', 'resetPasswordService', function ($scope, $window, $location, resetPasswordService) {
-
-
-    $scope.ResetPassword = {
-        Email: "",
-        Password: "",
-        ConfirmPassword: "",
-        code: ""
-    }
-
-    var parseLocation = function (location) {
-        var pairs = location.substring(1).split("&");
-        var obj = {};
-        var pair;
-        var i;
-
-        for (i in pairs) {
-            if (pairs[i] === "") continue;
-
-            pair = pairs[i].split("=");
-            obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
-        }
-
-        return obj;
-    };
-
-    $scope.ResetPassword.code = parseLocation(window.location.search)['code'];
-    //console.log(x);
-
-    $scope.ChangePassword = function () {
-
-        resetPasswordService.resetPassword($scope.ResetPassword).then(function (response) {
-            alert("Password Changed Successfully");
-            $window.location.href = "/Common/options";
-
-        }, function () {
-            alert("Failed.Please try again.");
-        })
-    }
-
-}])
-
-custApp.factory('resetPasswordService', ['$http', function ($http) {
-
-    var fac = {};
-
-    fac.resetPassword = function (resetPasswordData) {
-        return $http.post('/api/Account/ResetPassword', resetPasswordData)
-    };
-
-    return fac;
-
-}])
 
 
     

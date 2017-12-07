@@ -44,6 +44,10 @@ textarea {
     padding-top: 3%;
 }
 
+#Login {
+    padding-top: 8%;
+}
+
 @media only screen and (max-width: 500px) {
     .tab_main_data {
         padding-top: 6%;
@@ -65,17 +69,15 @@ footer {
     margin-top: 2%;
 }
 
-.loginbtn, .regbtn {
-    width: 100%;
-}
+
 
 .carousel-inner > .item > img {
     width: 100%;
     height: 80vh;
 }
 
-#response-message {
-    display:none;
+#response-msg {
+    display: none;
     width: auto;
     background: cadetblue;
     font-size: 15px;
@@ -85,5 +87,20 @@ footer {
     position: absolute;
     top: 10%;
     right: 3%;
-    padding: 5px
+    padding: 10px
+}
+
+.img_auth {
+    margin-top: 3%;
+    box-shadow: 10px 10px 10px teal;
+}
+
+.regbtn, .loginbtn {
+    width: 100%;
+}
+.quickResp {
+margin-top:2%;
+}
+.pass_box_area {
+padding-left:50px !important;
 }

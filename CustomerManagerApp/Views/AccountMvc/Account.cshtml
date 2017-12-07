@@ -1,26 +1,17 @@
-﻿<div class="container main_content" >
-    <div id="response-message"></div>
+﻿<div class="container main_content">
+    <div id="response-msg">{{message}}</div>
     <div class="row">
-        <div class="col-md-4">
-            <div class="panel panel-info">
-                <div class="panel-heading"><i class="fa fa-clone" aria-hidden="true"></i> Password-Rules</div>
-                <div class="panel panel-body">
-                    <ol class="list-group">
-                        <li class="list-group-item">1. Password must contain 8-32 characters.</li>
-                        <li class="list-group-item">2. It must contain atleast one Uppercase letter.</li>
-                        <li class="list-group-item">3. It must contain atleast one Lowercase letter.</li>
-                        <li class="list-group-item">4. It must contain atleast One Number.</li>
-                        <li class="list-group-item">5. It must contain atleast one Special character</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#Login">Login</a></li>
                 <li><a data-toggle="tab" href="#Register">Register</a></li>
             </ul>
-            <div class="col-md-5 col-md-offset-3 tab-content tab_main_data">
+            <div class="col-md-3 thumbnail panel panel-body img_auth">
+                <img src="~/Images/user_icon.png" class="img-thumbnail" />
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-3 tab-content tab_main_data">
                 <div id="Login" class="tab-pane fade in active" ng-controller="LoginController">
                     <form class="form-horizontal" method="POST" name="LoginForm" ng-submit="LoginToApp()">
                         <div class="form-group">
@@ -46,16 +37,16 @@
                                 <input type="checkbox" class="form-check-input">
                                 Remember Me
                             </label>
-                        </div>
-                        <div class="form-group ">
-                            <button type="submit" class="btn btn-primary loginbtn" ng-disabled="!LoginForm.password.$valid"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
-                        </div>
-                        <div class="form-group ">
-                            <a data-toggle="modal" href="#forgotModal" id="forgot_password" ng-click="showForm=true;ResponseContent=''">
-                                Forgot Password? Reset now
+                            <a data-toggle="modal" href="#forgotModal" id="forgot_password" class="pull-right" ng-click="showForm=true;ResponseContent=''">
+                                Forgot Password
                             </a>
                         </div>
-                </form>
+                        <div class="form-group ">
+                            <div class="cols-sm-10">
+                                <button type="submit" class="btn btn-primary loginbtn" ng-disabled="!LoginForm.password.$valid"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
+                            </div>
+                        </div>
+                    </form>
 
                     <!--Forgot Model  -->
                     <div class="modal fade" id="forgotModal" role="dialog">
@@ -63,33 +54,31 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Forgot Password</h4>
+                                    <h4 class="modal-title">Password Recovery</h4>
                                 </div>
                                 <div class="modal-body" style="padding: 40px 50px;">
-                                    <form id="forgot_form" ng-submit="GetFogotPassResponse()"
+                                    <form id="forgot_form" ng-submit="SendResetPassLink()"
                                           ng-show="showForm">
                                         <div class="form-group">
                                             <label for="email">
-                                                <span class="glyphicon glyphicon-user"></span> Username
-                                            </label> <input class="form-control" type="email" name=forgot_email
-                                                            id="forgot_email" placeholder="Enter Email" required="true"
+                                                <i class="fa fa-envelope" aria-hidden="true"></i> Email Address
+                                            </label> 
+                                            <input class="form-control" type="email" name=forgot_email
+                                                            id="forgot_email" placeholder="Enter registered email address" required="true"
                                                             autofocus="true" ng-model="username" maxlength='39' />
                                             <div id="wait"></div>
                                         </div>
-                                        <input type="submit" class="btn btn-success" value="Reset Now"
-                                               id="submit" name="btn" ng-disabled="showResetBtn">
-                                        &emsp;
-
+                                        <button type="submit" class="btn btn-primary" id="submit" name="btn" ng-disabled="showResetBtn"><i class="fa fa-envelope-open" aria-hidden="true"></i> Send Link</button>
                                     </form>
-                                    <div class="respcontent" ng-show="showResp">{{ResponseContent}}</div>
+                                    <div class="panel panel-primary panel-body quickResp" ng-show="isLoaded">{{message}}</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-            </div>
+                </div>
 
-                    <div id="Register" class="tab-pane fade" ng-controller="RegisterController">
+                <div id="Register" class="tab-pane fade" ng-controller="RegisterController">
                     <div class="main-login main-center">
                         <form class="form-horizontal" name="RegisterForm" ng-submit="RegisterAcc()">
                             <div class="form-group">
@@ -124,7 +113,7 @@
                                 <div class="cols-sm-10">
                                     <div class="input-group">
                                         <span class="input-group-addon reg_input_addon "><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                        <input type="password" class="form-control" name="confirm" id="confirmPassword" placeholder="Confirm your Password" ng-minlength="8" ng-model="confirmPassword" required />
+                                        <input type="password" class="form-control" name="confirm" id="confirmPassword" placeholder="Confirm your Password" ng-minlength="6" ng-model="confirmPassword" required />
                                     </div>
                                 </div>
                             </div>
@@ -132,8 +121,11 @@
                                 <div ng-style="passwordStrength"></div>
                                 <div class="validation" ng-show="matchCase=(confirmPassword.length > 0 && confirmPassword != password )">Confirm password does not match.</div>
                             </div>
+
                             <div class="form-group ">
-                                <button type="submit" class="btn btn-primary regbtn" ng-disabled="confirmPassword != password"><i class="fa fa-location-arrow" aria-hidden="true"></i> Register</button>
+                                <div class="cols-sm-10">
+                                    <button type="submit" class="btn btn-primary regbtn" ng-disabled="confirmPassword != password"><i class="fa fa-location-arrow" aria-hidden="true"></i> Register</button>
+                                </div>
                             </div>
                         </form>
                     </div>
