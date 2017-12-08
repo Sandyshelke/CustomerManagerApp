@@ -364,20 +364,15 @@ namespace CustomerManagerApp.Controllers
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
-        public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
+        public async Task<IHttpActionResult> RegisterExternal()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var info = await Authentication.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 return InternalServerError();
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = info.Email, Email = info.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user);
             if (!result.Succeeded)
@@ -416,9 +411,9 @@ namespace CustomerManagerApp.Controllers
             // return Ok(result.Succeeded? "ConfirmEmail" : "Error");
             string url = null;
             if (result.Succeeded)
-                url = "http://localhost:49419/Common/ActivationStatus/success";
+                url = "http://localhost:52498/Common/ActivationStatus/success";
             else
-                url = "http://localhost:49419/Common/ActivationStatus/error";
+                url = "http://localhost:52498/Common/ActivationStatus/error";
             System.Uri uri = new System.Uri(url);
             return Redirect(uri);
         }

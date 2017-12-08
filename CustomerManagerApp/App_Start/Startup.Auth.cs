@@ -10,6 +10,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using CustomerManagerApp.Providers;
 using CustomerManagerApp.Models;
+using Microsoft.Owin.Security.Facebook;
 
 namespace CustomerManagerApp
 {
@@ -59,11 +60,20 @@ namespace CustomerManagerApp
             //    appId: "",
             //    appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseFacebookAuthentication(new FacebookAuthenticationOptions
+            {
+                AppId = "147790442530648",
+                AppSecret = "1610bb07437a4917c5228cc048036559",
+                BackchannelHttpHandler = new FacebookBackChannelHandler(),
+                UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,name,email,first_name,last_name,location",
+                Scope = { "email" }
+            });
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "212827802112-2lrn6j5irvrovdu15grq8pdkhnf1ouqg.apps.googleusercontent.com",
+                ClientSecret = "cDs2NOu8nqYawcCuWyjus5VH"
+            });
         }
     }
 }
