@@ -1,4 +1,4 @@
-﻿var custApp = angular.module("CustManagerApp", ['ui.router']).config(function ($sceProvider) {
+﻿var custApp = angular.module("CustManagerApp", ['ui.router', 'LocalStorageModule']).config(function ($sceProvider) {
     $sceProvider.enabled(true);
 });
 custApp.factory("$GetRequestedData", function ($http, $q) {
@@ -43,8 +43,46 @@ custApp.factory('resetPasswordService', ['$http', function ($http) {
     return fac;
 
 }])
+custApp.factory('loginAppFactory', function (localStorageService, $q, $http) {
 
-custApp.controller("LoginController", function ($scope, $http, $rootScope, $GetRequestedData, $responseMessage) {
+    var fac = {};
+
+    fac.CheckRegistration = function (token) {
+
+        var deferred = $q.defer();
+
+        var request = {
+            method: 'get',
+            url: '/api/Account/UserInfo',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        }
+
+        fac.SignupExternal = function (token) {
+
+            var request = {
+                method: 'post',
+                url: '/api/Account/RegisterExternal',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                data: {}
+            }
+
+            return $http(request)
+        }
+
+        return $http(request)
+    }
+
+    return fac;
+
+})
+
+custApp.controller("LoginController", function ($scope, $http, $rootScope, $GetRequestedData, $responseMessage, loginAppFactory, localStorageService) {
     $scope.isLoaded = false;
     $scope.LoginToApp = function () {
         $responseMessage.setMessage("Loading Response...");
@@ -76,6 +114,41 @@ custApp.controller("LoginController", function ($scope, $http, $rootScope, $GetR
             $responseMessage.setMessage(response.data.Message);
         });
     }
+
+    $scope.authenticateExternalProvider = function (provider) {
+
+        var externalProviderUrl = "/api/Account/ExternalLogin?provider=" + provider + "&response_type=token&client_id=self&redirect_uri=http%3A%2F%2Flocalhost%3A52498%2FCommon%2FOptions&state=lh9EhFcEFKB07ILio01KJ5YwjgFET3wX7_FOh-E9MjE1";
+        window.location.href = externalProviderUrl;
+
+    };
+    $scope.CheckLocationHash = function () {
+        if (location.hash) {
+
+            if (location.hash.split('access_token=')) {
+                $scope.accessToken = location.hash.split('access_token=')[1].split('&')[0];
+                if ($scope.accessToken) {
+                    loginAppFactory.CheckRegistration($scope.accessToken).then(function (response) {
+                        if (response.data.HasRegistered) {
+                            sessionStorage.setItem("accesssToken", $scope.accessToken);
+                            location.href = "/Common/Dashboard";
+                        }
+                        else {
+                            loginAppFactory.SignupExternal($scope.accessToken).then(function (response) {
+                                sessionStorage.setItem("accesssToken", $scope.accessToken);
+                                location.href = "/Common/Dashboard";
+                            }, function (err) {
+                                alert(err.data.ModelState[''][1]);
+                            })
+                        }
+                    }, function () {
+                        alert("failed.");
+                    })
+                }
+            }
+        }
+    }
+
+    $scope.CheckLocationHash();
 })
 
 custApp.controller("RegisterController", function ($scope, $http, $GetRequestedData, $responseMessage) {
