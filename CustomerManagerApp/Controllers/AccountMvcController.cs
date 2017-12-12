@@ -36,6 +36,7 @@ namespace CustomerManagerApp.Controllers
         [Route("ActivationStatus/{id}")]
         public ActionResult ShowActivationStatus(string id)
         {
+            ViewBag.HostUrl = System.Configuration.ConfigurationManager.AppSettings["Hosturl"];
             if (id=="success")
                 ViewBag.result = "Your Account is active Please wait...";
             else

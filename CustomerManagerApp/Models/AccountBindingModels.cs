@@ -13,6 +13,13 @@ namespace CustomerManagerApp.Models
         public string ExternalAccessToken { get; set; }
     }
 
+    public class SetPhoneNumberBindingModel
+    {
+        [Required]
+        [Display(Name = "Phone Number")]
+        public String PhoneNumber { get; set; }
+    }
+
     public class ChangePasswordBindingModel
     {
         [Required]

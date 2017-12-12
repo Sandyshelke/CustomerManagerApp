@@ -134,6 +134,25 @@ namespace CustomerManagerApp.Controllers
             return Ok();
         }
 
+        #region Set user Phone Number
+        // POST api/Account/SetPhoneNumber
+        [Route("SetPhoneNumber")]
+        public async Task<IHttpActionResult> SetPhoneNumber(SetPhoneNumberBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+            return Ok(new { Message = "Phone Number Change successfully" });
+        }
+        #endregion
         // POST api/Account/SetPassword
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
@@ -346,7 +365,7 @@ namespace CustomerManagerApp.Controllers
 
                 string callbackUrl = Url.Link("DefaultApi", new { controller = "Account/ConfirmEmail", userId = user.Id, code = code });
 
-                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Hello " + model.Name + "<br>Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                 //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
             }
@@ -410,10 +429,11 @@ namespace CustomerManagerApp.Controllers
 
             // return Ok(result.Succeeded? "ConfirmEmail" : "Error");
             string url = null;
+            String HostUrl = System.Configuration.ConfigurationManager.AppSettings["HostUrl"];
             if (result.Succeeded)
-                url = "http://localhost:52498/Common/ActivationStatus/success";
+                url = "http://" + HostUrl + "/Common/ActivationStatus/success";
             else
-                url = "http://localhost:52498/Common/ActivationStatus/error";
+                url = "http://" + HostUrl + "/Common/ActivationStatus/error";
             System.Uri uri = new System.Uri(url);
             return Redirect(uri);
         }
@@ -450,7 +470,6 @@ namespace CustomerManagerApp.Controllers
                 }
 
             }
-
             return BadRequest();
         }
 
@@ -480,7 +499,11 @@ namespace CustomerManagerApp.Controllers
             {
                 return Ok();
             }
-            return InternalServerError();
+            IEnumerator<string> iResult = result.Errors.GetEnumerator();
+            iResult.MoveNext();
+            if (iResult.Current.ToLower().ToString().Contains("invalid token."))
+                return InternalServerError(new Exception("Password Reset Link is Expired"));
+            return InternalServerError(new Exception(iResult.Current.ToString()));
         }
 
         #endregion
@@ -496,6 +519,7 @@ namespace CustomerManagerApp.Controllers
 
             base.Dispose(disposing);
         }
+
 
         #region Helpers
 

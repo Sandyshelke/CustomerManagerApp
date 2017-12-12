@@ -241,6 +241,8 @@
     <Compile Include="Areas\Products\Controllers\ProductController.cs" />
     <Compile Include="Areas\Products\Models\Product.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
+    <Compile Include="Areas\User\Controllers\UserController.cs" />
+    <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AccountMvcController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -318,6 +320,7 @@
     <Content Include="Areas\Mailer\Views\web.config" />
     <Content Include="Views\AccountMvc\ResetPassword.cshtml" />
     <Content Include="Scripts\angular-local-storage.min.js.map" />
+    <Content Include="Areas\User\Views\web.config" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -355,6 +358,8 @@
     <Folder Include="Areas\Mailer\Models\" />
     <Folder Include="Areas\Mailer\Views\Shared\" />
     <Folder Include="Areas\Products\Views\Shared\" />
+    <Folder Include="Areas\User\Models\" />
+    <Folder Include="Areas\User\Views\Shared\" />
     <Folder Include="Images\icon\" />
   </ItemGroup>
   <ItemGroup>
