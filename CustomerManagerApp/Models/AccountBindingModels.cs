@@ -45,6 +45,9 @@ namespace CustomerManagerApp.Models
         [Display(Name = "Name")]
         public string Name { get; set; }
 
+        [Display(Name = "UserPhoto")]
+        public byte[] UserPhoto { get; set; }
+
         [Required]
         [Display(Name = "UserName")]
         public string UserName { get; set; }

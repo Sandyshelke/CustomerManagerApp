@@ -1,0 +1,133 @@
+﻿<div class="container-fluid main_content" ng-controller="ProfileController" ng-init="GetProfile()">
+    <div class="row">
+        <div class="col-md-4">
+            <div id="social">
+                <ul>
+                    <li id="HTERCUMANP"><i class="fa fa-twitter"></i></li>
+                    <li id="100008152065270"><i class="fa fa-facebook"></i></li>
+                    <li id="harunpehlivantebimtebitagem"><i class="fa fa-instagram"></i></li>
+                    <li id="111320383727376607540"><i class="fa fa-google-plus"></i></li>
+                    <li id="in/harun-pehlivan-0aa34252"><i class="fa fa-linkedin "></i></li>
+                </ul>
+                <div id="logo2">
+                    <img src="http://images.ticiz.com/2603690_w0_h120_hnn1i...bv9ettdv9dsbugw0py.png" />
+                </div>
+            </div>
+            <div class="profile">
+                <div id="avatar">
+                    <img src="@Url.Action("MyProfilePicture", "UserMVC" )" />
+                </div>
+                <div id="cover"></div>
+                <div id="cover2"></div>
+                <div id="info">
+                    <ul>
+                        <li id="username"><span>{{profileContent.Name}}</span></li>
+                        <li><i class="fa fa-globe"></i> {{profileContent.Email}}</li>
+                        <li><i class="fa fa-phone"></i> {{profileContent.PhoneNumber}}</li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+                <div id="logo">
+                    <img src="http://images.ticiz.com/2603690_w0_h120_hnn1i...bv9ettdv9dsbugw0py.png" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="profile profile_addinfo">
+                <div class="col-md-3">
+                    <div class="profile-sidebar">
+                        <!-- SIDEBAR USERPIC -->
+                        <div class="profile-userpic">
+                            <!-- <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> -->
+
+
+                        </div>
+                        <!-- END SIDEBAR USERPIC -->
+                        <!-- SIDEBAR USER TITLE -->
+                        <div class="profile-usertitle">
+                            <div class="profile-usertitle-name">
+                                <span class="hidden-xs">Menu-Bar</span>
+                            </div>
+                            <div class="profile-usertitle-job">
+                            </div>
+                        </div>
+                        <!-- END SIDEBAR USER TITLE -->
+                        <!-- SIDEBAR MENU -->
+                        <div class="profile-usermenu">
+                            <ul class="nav">
+                                <li class="active">
+                                    <a href="#">
+                                        <i class="glyphicon glyphicon-home"></i>
+                                        <span class="hidden-xs">Personal<span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                        <span class="hidden-xs">Delivery Address<span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                        <span class="hidden-xs">Orders <span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="glyphicon glyphicon-flag"></i>
+                                        <span class="hidden-xs">My Wishlist <span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="glyphicon glyphicon-shopping-cart"></i>
+                                        <span class="hidden-xs">Shopping Bag<span>
+                                    </a>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!-- END MENU -->
+                    </div>
+                </div>
+                <div class="col-md-9 order-content">
+                    <h4 class="heading"><strong>Personal </strong> Contact <span></span></h4>
+                    <div class="col-md-8 col-sm-5 col-xs-7">
+                        <div class="form-area">
+                            <form role="form" ng-submit="UpdateProfile()">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" required ng-model="profileContent.Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="email" name="email" placeholder="Email" required ng-model="profileContent.Email">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Mobile Number" required ng-model="profileContent.PhoneNumber">
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" type="textarea" id="message" placeholder="About Yourself" maxlength="150" rows="7" ng-model="profileContent.AboutMe"></textarea>
+                                    <span class="help-block"><p id="characterLeft" class="help-block ">You have reached the limit</p></span>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary center-block">Update Information</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-5 col-xs-7">
+                        @using (Html.BeginForm("ProfilePicture", "UserMVC", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                <input type="file" class="form-control" name="UserPhoto" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" required />
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <button type="submit" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Update</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>

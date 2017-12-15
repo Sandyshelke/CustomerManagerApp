@@ -17,7 +17,7 @@ namespace CustomerManagerApp.Areas.User
             context.MapRoute(
                 "User_default",
                 "User/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
+                new { Controller="UserMVC", action = "Profile", id = UrlParameter.Optional }
             );
         }
     }

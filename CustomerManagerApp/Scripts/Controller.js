@@ -99,7 +99,7 @@ custApp.controller("LoginController", function ($scope, $http, $rootScope, $GetR
             data: "grant_type=password&username=" + requestObject.Email + "&password=" + requestObject.Password
         }).then(function success(response) {
             sessionStorage.setItem("accesssToken", response.data.access_token);
-            window.location.href = "/Common/Dashboard"
+            window.location.href = "/User/UserMVC/Profile"
         },
             function fail(response) {
                 $responseMessage.setMessage(response.data.error_description);
@@ -130,12 +130,12 @@ custApp.controller("LoginController", function ($scope, $http, $rootScope, $GetR
                     loginAppFactory.CheckRegistration($scope.accessToken).then(function (response) {
                         if (response.data.HasRegistered) {
                             sessionStorage.setItem("accesssToken", $scope.accessToken);
-                            location.href = "/Common/Dashboard";
+                            location.href = "/User/UserMVC/Profile"
                         }
                         else {
                             loginAppFactory.SignupExternal($scope.accessToken).then(function (response) {
                                 sessionStorage.setItem("accesssToken", $scope.accessToken);
-                                location.href = "/Common/Dashboard";
+                                location.href = "/User/UserMVC/Profile"
                             }, function (err) {
                                 alert(err.data.ModelState[''][1]);
                             })
@@ -216,7 +216,6 @@ custApp.controller('resetPasswordController', ['$scope', '$window', '$location',
     }
 }])
 
-
 custApp.controller("ProductController", function ($scope, $http, $GetRequestedData, $responseMessage) {
 
 
@@ -226,6 +225,33 @@ custApp.controller("ProductController", function ($scope, $http, $GetRequestedDa
         }
         $GetRequestedData.processRequest("POST", "/api/Product", requestObject).then(function (response) {
             $responseMessage.setMessage(response.data);
+        }, function (response) {
+            $responseMessage.setMessage(response.data);
+        });
+    }
+})
+
+custApp.controller("ProfileController", function ($scope, $http, $GetRequestedData, $responseMessage) {
+
+    $scope.GetProfile = function () {
+
+        $GetRequestedData.processRequest("GET", "/api/User/Profile","").then(function (response) {
+            $scope.profileContent = response.data;
+        }, function (response) {
+            $responseMessage.setMessage(response.data);
+        });
+    }
+
+    $scope.UpdateProfile = function () {
+        var requestObject = {
+            Name: $scope.profileContent.Name,
+            Email: $scope.profileContent.Email,
+            PhoneNumber: $scope.profileContent.PhoneNumber,
+            AboutMe: $scope.profileContent.AboutMe,
+        }
+
+        $GetRequestedData.processRequest("POST", "/api/User/Profile", requestObject).then(function (response) {
+            $scope.profileContent = response.data;
         }, function (response) {
             $responseMessage.setMessage(response.data);
         });
