@@ -265,6 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -272,6 +273,9 @@
     <Content Include="Content\fontawesome\font-awesome.css" />
     <Content Include="Content\fontawesome\font-awesome.min.css" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\graph.css" />
+    <Content Include="Content\icon-font.min.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -301,13 +305,26 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Images\batteries_exide.jpg" />
+    <Content Include="Images\broad_solar_panel.jpg" />
+    <Content Include="Images\lock.png" />
     <Content Include="Images\login.png" />
+    <Content Include="Images\purifier.jpg" />
+    <Content Include="Images\sai_baba.jpg" />
+    <Content Include="Images\search.png" />
+    <Content Include="Images\solar.jpg" />
+    <Content Include="Images\SolarPanel.jpg" />
+    <Content Include="Images\tick.png" />
+    <Content Include="Images\user.png" />
     <Content Include="Images\user_icon.png" />
+    <Content Include="Images\water_purifier.jpg" />
     <Content Include="Scripts\angular-local-storage.js" />
     <Content Include="Scripts\angular-local-storage.min.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\classie.js" />
     <Content Include="Scripts\Controller.js" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
@@ -320,7 +337,14 @@
     <Content Include="Content\fonts\FontAwesome.otf" />
     <Content Include="Areas\Products\Views\web.config" />
     <Content Include="Areas\Mailer\Views\web.config" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery.flexisel.js" />
+    <Content Include="Scripts\jquery.flot.min.js" />
+    <Content Include="Scripts\jquery.nicescroll.js" />
     <Content Include="Scripts\myFunctions.js" />
+    <Content Include="Scripts\scripts.js" />
+    <Content Include="Scripts\uisearch.js" />
+    <Content Include="Scripts\wow.min.js" />
     <Content Include="Views\AccountMvc\ResetPassword.cshtml" />
     <Content Include="Scripts\angular-local-storage.min.js.map" />
     <Content Include="Areas\User\Views\web.config" />
@@ -357,6 +381,7 @@
     <Content Include="Views\AccountMvc\Account.cshtml" />
     <Content Include="Views\AccountMvc\Dashboard.cshtml" />
     <Content Include="Views\AccountMvc\ShowActivationStatus.cshtml" />
+    <Content Include="Views\Shared\DashLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
