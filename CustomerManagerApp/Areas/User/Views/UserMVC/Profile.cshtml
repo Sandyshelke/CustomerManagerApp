@@ -1,35 +1,16 @@
 ﻿<div class="container-fluid main_content" ng-controller="ProfileController" ng-init="GetProfile()">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-1"></div>
+        <div class="col-md-1">
             <div id="social">
                 <ul>
                     <li id="HTERCUMANP"><i class="fa fa-twitter"></i></li>
                     <li id="100008152065270"><i class="fa fa-facebook"></i></li>
                     <li id="harunpehlivantebimtebitagem"><i class="fa fa-instagram"></i></li>
                     <li id="111320383727376607540"><i class="fa fa-google-plus"></i></li>
-                    <li id="in/harun-pehlivan-0aa34252"><i class="fa fa-linkedin "></i></li>
+                    <li id="111320383727376607540"><i class="fa fa-linkedin "></i></li>
+                    <li id="111320383727376607540"><a href="/Common/Dashboard" style="color:white;"><i class="fa fa-tachometer" aria-hidden="true"></i></a></li>
                 </ul>
-                <div id="logo2">
-                    <img src="http://images.ticiz.com/2603690_w0_h120_hnn1i...bv9ettdv9dsbugw0py.png" />
-                </div>
-            </div>
-            <div class="profile">
-                <div id="avatar">
-                    <img src="@Url.Action("MyProfilePicture", "UserMVC" )" />
-                </div>
-                <div id="cover"></div>
-                <div id="cover2"></div>
-                <div id="info">
-                    <ul>
-                        <li id="username"><span>{{profileContent.Name}}</span></li>
-                        <li><i class="fa fa-globe"></i> {{profileContent.Email}}</li>
-                        <li><i class="fa fa-phone"></i> {{profileContent.PhoneNumber}}</li>
-                    </ul>
-                </div>
-                <div class="clear"></div>
-                <div id="logo">
-                    <img src="http://images.ticiz.com/2603690_w0_h120_hnn1i...bv9ettdv9dsbugw0py.png" />
-                </div>
             </div>
         </div>
         <div class="col-md-8">
@@ -56,31 +37,25 @@
                         <div class="profile-usermenu">
                             <ul class="nav">
                                 <li class="active">
-                                    <a href="#">
+                                    <a data-toggle="tab" href="#per_contact" >
                                         <i class="glyphicon glyphicon-home"></i>
                                         <span class="hidden-xs">Personal<span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a data-toggle="tab" href="#address">
                                         <i class="glyphicon glyphicon-user"></i>
-                                        <span class="hidden-xs">Delivery Address<span>
+                                        <span class="hidden-xs"> Address<span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a data-toggle="tab" href="#orders">
                                         <i class="glyphicon glyphicon-ok"></i>
                                         <span class="hidden-xs">Orders <span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
-                                        <i class="glyphicon glyphicon-flag"></i>
-                                        <span class="hidden-xs">My Wishlist <span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
+                                    <a data-toggle="tab" href="#cart" >
                                         <i class="glyphicon glyphicon-shopping-cart"></i>
                                         <span class="hidden-xs">Shopping Bag<span>
                                     </a>
@@ -92,9 +67,10 @@
                         <!-- END MENU -->
                     </div>
                 </div>
-                <div class="col-md-9 order-content">
-                    <h4 class="heading"><strong>Personal </strong> Contact <span></span></h4>
-                    <div class="col-md-8 col-sm-5 col-xs-7">
+                <div class="col-md-9 order-content tab-content">
+                    <div id="per_contact" class="tab-pane fade in active">
+                        <h4 class="heading"><strong>Personal </strong> Contact <span></span></h4>
+                         <div class="col-md-8 col-sm-5 col-xs-7">
                         <div class="form-area">
                             <form role="form" ng-submit="UpdateProfile()">
                                 <div class="form-group">
@@ -115,19 +91,34 @@
                             </form>
                         </div>
                     </div>
-                    <div class="col-md-4 col-sm-5 col-xs-7">
+                                <div class="col-md-4 col-sm-5 col-xs-7">
+                        <div id="avatar">
+                            <img src="@Url.Action("MyProfilePicture", "UserMVC" )" />
+                        </div>
                         @using (Html.BeginForm("ProfilePicture", "UserMVC", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-                        {
+                            {
                             <div class="form-group">
                                 <input type="file" class="form-control" name="UserPhoto" id="fileUpload" accept=".png,.jpg,.jpeg,.gif,.tif" required />
                             </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <button type="submit" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Update</button>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button type="submit" class="btn btn-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Update</button>
+                                    </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                    </div>
+                    </div>
+                    <div id="address" class="tab-pane fade">
+                        <h4 class="heading"><strong>Address </strong> Info. <span></span></h4>
+                    </div>
+                    <div id="orders" class="tab-pane fade">
+                        <h4 class="heading"><strong>My </strong> Orders <span></span></h4>
+                    </div>
+                    <div id="cart" class="tab-pane fade">
+                        <h4 class="heading"><strong>Shopping </strong> Cart <span></span></h4>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
